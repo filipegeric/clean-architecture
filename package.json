@@ -6,7 +6,8 @@
   "scripts": {
     "start:dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node src/main.ts\"",
     "test": "jest --maxWorkers=50%",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "dep-graph": "depcruise --config .dependency-cruiser.js --include-only \"^src\" --exclude \"spec\\.ts$\" --output-type dot src | dot -T svg > dependencygraph.svg"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
+    "dependency-cruiser": "^10.0.1",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",

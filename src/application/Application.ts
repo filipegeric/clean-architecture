@@ -1,26 +1,39 @@
 import { UserController } from '../adapter/controller/UserController';
+import { PostgresDatabase } from '../adapter/repository/postgres/PostgresDatabase';
 import { RepositoryFactory } from '../adapter/repository/RepositoryFactory';
 import { UserRepository } from '../domain/port/UserRepository';
 import { GetUsers } from '../usecase/GetUsers';
 
-interface ApplicationConfig {
+export interface ApplicationConfig {
+  appType: string;
   databaseType: string;
+  port: number;
+  [key: string]: any;
 }
 
 export abstract class Application {
-  protected config: ApplicationConfig;
-
   protected userRepository: UserRepository;
 
   protected userController: UserController;
 
-  private parseInputConfig(input?: any): ApplicationConfig {
-    return {
-      databaseType: input?.databaseType || 'memory',
-    };
+  constructor(protected readonly config: ApplicationConfig) {}
+
+  private setupDatabaseConnection() {
+    switch (this.config.databaseType) {
+      case 'memory':
+        return;
+      case 'postgres':
+        return PostgresDatabase.initialize({
+          ...this.config.postgres,
+          type: 'postgres',
+        });
+      default:
+        throw new Error('Unknown database type');
+    }
   }
 
-  private setupRepositories() {
+  private async setupRepositories() {
+    await this.setupDatabaseConnection();
     this.userRepository = RepositoryFactory.create(UserRepository, this.config.databaseType);
   }
 
@@ -28,11 +41,15 @@ export abstract class Application {
     this.userController = new UserController(new GetUsers(this.userRepository));
   }
 
-  constructor(inputConfig?: any) {
-    this.config = this.parseInputConfig(inputConfig);
-    this.setupRepositories();
+  private async bootstrap() {
+    await this.setupRepositories();
     this.setupControllers();
   }
 
-  abstract run(): any;
+  public async start() {
+    await this.bootstrap();
+    await this.run();
+  }
+
+  protected abstract run(): any;
 }

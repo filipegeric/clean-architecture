@@ -14,8 +14,8 @@ export class FastifyApplication extends Application {
     });
   }
 
-  run(config?: any) {
-    const port = config?.port || 3000;
+  run() {
+    const port = this.config.port;
 
     this.app = fastify({ logger: false });
 

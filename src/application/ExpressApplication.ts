@@ -21,12 +21,12 @@ export class ExpressApplication extends Application {
     });
   }
 
-  run(config?: any) {
+  run() {
     this.app = express();
 
     this.setupRoutes();
 
-    const port = config?.port || 3000;
+    const port = this.config.port;
     this.app.listen(port, () => {
       // eslint-disable-next-line no-console
       console.log(`Express application running on port ${port}...`);

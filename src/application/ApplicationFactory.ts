@@ -2,12 +2,12 @@ import { ExpressApplication } from './ExpressApplication';
 import { FastifyApplication } from './FastifyApplication';
 
 export class ApplicationFactory {
-  static create(applicationType: string) {
-    switch (applicationType) {
+  static create(config?: any) {
+    switch (config?.appType) {
       case 'express':
-        return new ExpressApplication();
+        return new ExpressApplication(config);
       case 'fastify':
-        return new FastifyApplication();
+        return new FastifyApplication(config);
       default:
         throw new Error('Unknown application type');
     }

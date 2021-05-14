@@ -1,5 +1,5 @@
-import { User } from '../../domain/entity/User';
-import { UserRepository } from '../../domain/port/UserRepository';
+import { User } from '../../../domain/entity/User';
+import { UserRepository } from '../../../domain/port/UserRepository';
 
 export class MemoryUserRepository implements UserRepository {
   private readonly users: User[] = [];

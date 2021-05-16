@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
 
-import { Application } from './Application';
+import { Application } from '../Application';
 
 export class ExpressApplication extends Application {
   private app: Express;

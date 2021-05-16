@@ -1,5 +1,5 @@
-import { ExpressApplication } from './ExpressApplication';
-import { FastifyApplication } from './FastifyApplication';
+import { ExpressApplication } from './express/ExpressApplication';
+import { FastifyApplication } from './fastify/FastifyApplication';
 
 export class ApplicationFactory {
   static create(config?: any) {

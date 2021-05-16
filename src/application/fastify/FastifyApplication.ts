@@ -1,6 +1,6 @@
 import fastify, { FastifyInstance } from 'fastify';
 
-import { Application } from './Application';
+import { Application } from '../Application';
 
 export class FastifyApplication extends Application {
   private app: FastifyInstance;
